@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме Ренарда Мерсиева</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); /* Глубокий черный с легким градиентом */
+            color: #ccc; /* Светло-серый текст для контраста */
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            overflow-x: hidden; /* Избегаем горизонтального скролла */
+            scroll-behavior: smooth; /* Плавный скролл */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 60px;
+            background-color: rgba(10, 10, 10, 0.9); /* Почти черный, слегка прозрачный */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.1); /* Тонкая золотая рамка */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif; /* Элегантный шрифт для заголовков */
+            color: #8bc34a; /* Природный зеленый */
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h1::after, h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #fdd835; /* Золотая линия под заголовком */
+            border-radius: 5px;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #ddd; /* Более светлый текст для основного содержимого */
+        }
+
+        .section {
+            margin-bottom: 60px; /* Больше пространства между секциями */
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Более плавная и долгая анимация */
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Персональная информация */
+        #personal-info {
+            text-align: center;
+            padding: 40px 0;
+        }
+        #personal-info p {
+            font-size: 1.2em;
+            color: #fdd835; /* Золотой цвет для личной информации */
+            margin: 10px 0;
+        }
+
+        /* Навыки */
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px; /* Промежутки между элементами */
+        }
+        .skills-list li {
+            background-color: rgba(255, 215, 0, 0.1); /* Слегка прозрачный золотой фон */
+            color: #fdd835;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .skills-list li:hover {
+            transform: translateY(-5px); /* Анимация при наведении */
+        }
+
+        /* Контактная информация */
+        .contact-info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .contact-info p {
+            font-size: 1.1em;
+            margin: 10px 20px;
+        }
+        .contact-info a {
+            color: #fdd835;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: #8bc34a; /* Смена цвета при наведении */
+        }
+
+        /* Достижения и сертификаты */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; /* Большие промежутки между элементами */
+            padding: 20px;
+        }
+        .achievement-item {
+            background-color: rgba(30, 30, 30, 0.9); /* Темный фон для элементов */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(139, 195, 74, 0.2); /* Легкая зеленая рамка */
+            transition: transform 0.3s ease;
+        }
+        .achievement-item:hover {
+            transform: translateY(-10px); /* Анимация при наведении */
+        }
+        .achievement-item h3 {
+            color: #fdd835; /* Золотой заголовок */
+            margin-top: 0;
+            font-size: 1.4em;
+            text-align: left;
+        }
+        .achievement-item p {
+            font-size: 1em;
+            color: #ccc;
+        }
+        .achievement-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Таблица оценок */
+        .grades-table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            background-color: rgba(30, 30, 30, 0.8);
+        }
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .grades-table th, .grades-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
+        }
+        .grades-table th {
+            text-align: left;
+            color: #8bc34a;
+            background-color: rgba(139, 195, 74, 0.1);
+        }
+        .grades-table td {
+            color: #ddd;
+        }
+        .grades-table td.grade-highlight {
+            color: #fdd835; /* Золотой для оценок */
+            font-weight: 600;
+        }
+        .grades-table td.grade-pass {
+            color: #8bc34a; /* Зеленый для "зачтено" */
+            font-weight: 600;
+        }
+
+        /* Пасхальное яйцо */
+        #easter-egg-trigger {
+            cursor: pointer;
+            color: #8bc34a;
+            text-decoration: underline;
+            font-size: 0.9em;
+            text-align: center;
+            display: block;
+            margin-top: 50px;
+        }
+        #easter-egg-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #fdd835;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="section" id="personal-info">
+            <h1 id="site-title">Ренард Мерсиев</h1>
+            <p><strong>Будущий Фронтенд-разработчик</strong></p>
+            <p>Возраст: [Укажите ваш возраст]</p>
+            <p>Город: Шымкент, Казахстан</p>
+        </section>
+
+        <section class="section" id="about">
+            <h2>Обо мне</h2>
+            <p>Я - молодой и амбициозный студент, увлеченный миром информационных технологий. Активно осваиваю основы фронтенд-разработки и готов к постоянному обучению новым навыкам и технологиям. Моя цель - создавать функциональные, красивые и удобные веб-приложения, которые принесут пользу людям.</p>
+            <p>Помимо учебы, я активно участвую в общественной жизни: являюсь членом школьного парламента, где развиваю лидерские качества и навыки командной работы.</p>
+        </section>
+
+        <section class="section" id="education">
+            <h2>Образование</h2>
+            <p><strong>Онлайн-школа "Морисон"</strong> - "Фронтенд-разработка" (в процессе обучения)</p>
+            <p>Здесь я углубляюсь в HTML, CSS и JavaScript, осваиваю адаптивную верстку и принципы создания интерактивных пользовательских интерфейсов.</p>
+            <img src="image_a378f1.png" alt="Логотип Morrison" style="max-width: 150px; display: block; margin: 20px auto;">
+        </section>
+
+        <section class="section" id="skills">
+            <h2>Навыки</h2>
+            <ul class="skills-list">
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>JavaScript (основы)</li>
+                <li>Git/GitHub</li>
+                <li>Адаптивная и кроссбраузерная верстка</li>
+                <li>Лидерство</li>
+                <li>Командная работа</li>
+                <li>Управление временем</li>
+                <li>Эффективные коммуникации</li>
+            </ul>
+        </section>
+
+        <section class="section" id="academic-performance">
+            <h2>Академические достижения</h2>
+            <p style="text-align: center; color: #fdd835;">Результаты за 8-й класс (2024/2025 учебный год, по четвертям):</p>
+            <div class="grades-table-wrapper">
+                <table class="grades-table">
+                    <thead>
+                        <tr>
+                            <th>Предмет</th>
+                            <th>1 четв.</th>
+                            <th>2 четв.</th>
+                            <th>3 четв.</th>
+                            <th>4 четв.</th>
+                            <th>Итог</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Алгебра</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Английский язык</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">5</td>
+                        </tr>
+                        <tr>
+                            <td>Биология</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Всемирная история</td>
+                            <td>-</td>
+                            <td class="grade-highlight">4</td>
+                            <td>-</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>География</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Геометрия</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Глоб. компетенции</td>
+                            <td>-</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td>-</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                        </tr>
+                        <tr>
+                            <td>Информатика</td>
+                            <td>-</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td>-</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">5</td>
+                        </tr>
+                        <tr>
+                            <td>История Казахстана</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Каз.язык и литерат.</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                        </tr>
+                        <tr>
+                            <td>Классный час</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Русская литература</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                        </tr>
+                        <tr>
+                            <td>Русский язык</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                            <td class="grade-highlight">3</td>
+                        </tr>
+                        <tr>
+                            <td>Физика</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">5</td>
+                        </tr>
+                        <tr>
+                            <td>Физическая культура</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                        </tr>
+                        <tr>
+                            <td>Химия</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">4</td>
+                            <td class="grade-highlight">5</td>
+                            <td class="grade-highlight">4</td>
+                        </tr>
+                        <tr>
+                            <td>Художественный труд</td>
+                            <td>-</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td>-</td>
+                            <td class="grade-pass">ЗЧ</td>
+                            <td class="grade-pass">ЗЧ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+             <p style="text-align: center; font-size: 0.9em; margin-top: 15px; color: #999;">Данные представлены по итогам четвертей, оценка "ЗЧ" (зачтено) за предмет "Глобальные компетенции", "Физическая культура", "Художественный труд" и "Информатика" в некоторых четвертях.</p>
+             <p style="text-align: center; font-size: 0.9em; color: #999;">(На основе данных kundelik.kz)</p>
+        </section>
+
+        <section class="section" id="achievements">
+            <h2>Дипломы и Сертификаты</h2>
+            <div class="achievements-grid">
+                <div class="achievement-item">
+                    <h3>Диплом I Орын «Жас Математик - Young Mathematician»</h3>
+                    <p>Победитель олимпиады "Жас Математик - Young Mathematician", занявший первое место.</p>
+                    <p>Дата: 22.04.2025</p>
+                    <img src="Скан_20250526 (3).jpg" alt="Диплом Young Mathematician">
+                </div>
+                <div class="achievement-item">
+                    <h3>Сертификат участника Лидерской конференции-тренинга</h3>
+                    <p>Успешно прошел(а) обучение в рамках Лидерской конференции-тренинга Ассоциации Юных Лидеров Казахстана.</p>
+                    <p>Охваченные темы: Лидерство, навыки принятия решений, командная работа, ситуационное лидерство, методы взаимодействия, эффективные коммуникации, управление временем и планирование.</p>
+                    <p>Дата: 07-11.05.2025</p>
+                    <img src="Скан_20250526 (2).jpg" alt="Сертификат Лидерской конференции">
+                </div>
+                <div class="achievement-item">
+                    <h3>Сертификат участника Лидерской конференции-тренинга (2-й поток)</h3>
+                    <p>Успешно прошел(а) обучение во втором потоке Лидерской конференции-тренинга Ассоциации Юных Лидеров Казахстана.</p>
+                    <p>Охваченные темы: Лидерство, навыки принятия решений, командная работа, ситуационное лидерство, методы взаимодействия, эффективные коммуникации, управление временем и планирование.</p>
+                    <p>Дата: 26 - 30 октября 2024г.</p>
+                    <img src="Скан_20250526.jpg" alt="Сертификат Лидерской конференции 2">
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <h2>Свяжитесь со мной</h2>
+            <div class="contact-info">
+                <p>Email: <a href="mailto:[Ваш email]">[Ваш email]</a></p>
+                <p>Телефон: [Ваш номер телефона]</p>
+                <p>Telegram: <a href="https://t.me/[Ваш Telegram]" target="_blank">@[Ваш Telegram]</a></p>
+                <p>GitHub: <a href="[Ваш GitHub]" target="_blank">[Ваш GitHub]</a></p>
+            </div>
+        </section>
+        
+        <p id="easter-egg-trigger">✨ Кликни здесь, чтобы увидеть секрет ✨</p>
+        <p id="easter-egg-message">Привет! Рад, что ты дошел до сюда! Это просто класс, что ты такой внимательный. Продолжай в том же духе! 🚀</p>
+
+    </div>
+
+    <script>
+        // Smooth scroll and fade-in animation
+        const sections = document.querySelectorAll('.section');
+
+        function checkVisibility() {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (sectionTop < windowHeight * 0.85) { // Появляется раньше
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        checkVisibility(); // Проверяем видимость при загрузке страницы
+
+        // Easter egg functionality
+        const easterEggTrigger = document.getElementById('easter-egg-trigger');
+        const easterEggMessage = document.getElementById('easter-egg-message');
+
+        easterEggTrigger.addEventListener('click', () => {
+            if (easterEggMessage.style.display === 'none' || easterEggMessage.style.display === '') {
+                easterEggMessage.style.display = 'block';
+            } else {
+                easterEggMessage.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
