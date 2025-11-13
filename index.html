@@ -1,336 +1,715 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Резюме Ренарда Мерсиева</title>
+    <title>Ренард "Nexor" Мирсиев - Фронтенд-разработчик</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js (для 3D-фона) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- ionicons (для иконок контактов) -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- Шрифты (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Конфигурация Tailwind с палитрой Nexor -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'nexor-green': '#8BC34A',  // Основной
+                        'nexor-gold': '#FDD835',   // Акцент
+                        'nexor-bg': '#121212',     // Фон
+                        'nexor-card': '#1E1E1E',   // Доп. фон (карточки)
+                        'nexor-text': '#CCCCCC',   // Текст основной
+                        'nexor-white': '#FFFFFF',  // Текст акцент
+                    }
+                },
+            },
+        }
+    </script>
+
+    <!-- Основные стили (в стиле Montfort + Nexor) -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap');
-
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); /* Глубокий черный с легким градиентом */
-            color: #ccc; /* Светло-серый текст для контраста */
-            margin: 0;
-            padding: 0;
-            line-height: 1.8;
-            overflow-x: hidden; /* Избегаем горизонтального скролла */
-            scroll-behavior: smooth; /* Плавный скролл */
+            font-family: 'inter', sans-serif;
+            background-color: #121212;
+            color: #CCCCCC;
+            /* Убираем стандартный курсор */
+            cursor: none;
+            overflow-x: hidden; /* Запрет горизонтального скролла */
         }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 60px;
-            background-color: rgba(10, 10, 10, 0.9); /* Почти черный, слегка прозрачный */
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 215, 0, 0.1); /* Тонкая золотая рамка */
-        }
-
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif; /* Элегантный шрифт для заголовков */
-            color: #8bc34a; /* Природный зеленый */
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        h1::after, h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: #fdd835; /* Золотая линия под заголовком */
-            border-radius: 5px;
-        }
-
-        p {
-            font-size: 1.1em;
-            color: #ddd; /* Более светлый текст для основного содержимого */
-        }
-
-        .section {
-            margin-bottom: 60px; /* Больше пространства между секциями */
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1s ease-out, transform 1s ease-out; /* Более плавная и долгая анимация */
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Персональная информация */
-        #personal-info {
-            text-align: center;
-            padding: 40px 0;
-        }
-        #personal-info p {
-            font-size: 1.2em;
-            color: #fdd835; /* Золотой цвет для личной информации */
-            margin: 10px 0;
-        }
-
-        /* Навыки */
-        .skills-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px; /* Промежутки между элементами */
-        }
-        .skills-list li {
-            background-color: rgba(255, 215, 0, 0.1); /* Слегка прозрачный золотой фон */
-            color: #fdd835;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .skills-list li:hover {
-            transform: translateY(-5px); /* Анимация при наведении */
-        }
-
-        /* Контактная информация */
-        .contact-info {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .contact-info p {
-            font-size: 1.1em;
-            margin: 10px 20px;
-        }
-        .contact-info a {
-            color: #fdd835;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .contact-info a:hover {
-            color: #8bc34a; /* Смена цвета при наведении */
-        }
-
-        /* Достижения и сертификаты */
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; /* Большие промежутки между элементами */
-            padding: 20px;
-        }
-        .achievement-item {
-            background-color: rgba(30, 30, 30, 0.9); /* Темный фон для элементов */
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(139, 195, 74, 0.2); /* Легкая зеленая рамка */
-            transition: transform 0.3s ease;
-        }
-        .achievement-item:hover {
-            transform: translateY(-10px); /* Анимация при наведении */
-        }
-        .achievement-item h3 {
-            color: #fdd835; /* Золотой заголовок */
-            margin-top: 0;
-            font-size: 1.4em;
-            text-align: left;
-        }
-        .achievement-item p {
-            font-size: 1em;
-            color: #ccc;
-        }
-        .achievement-item img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-top: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        /* Таблица оценок */
-        .grades-table-wrapper {
-            overflow-x: auto;
-            margin-top: 20px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 8px;
-            padding: 15px;
-            background-color: rgba(30, 30, 30, 0.8);
-        }
-        .grades-table {
+        /* 3D Фон */
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
-        }
-        .grades-table th, .grades-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
-        }
-        .grades-table th {
-            text-align: left;
-            color: #8bc34a;
-            background-color: rgba(139, 195, 74, 0.1);
-        }
-        .grades-table td {
-            color: #ddd;
-        }
-        .grades-table td.grade-highlight {
-            color: #fdd835; /* Золотой для оценок */
-            font-weight: 600;
-        }
-        .grades-table td.grade-pass {
-            color: #8bc34a; /* Зеленый для "зачтено" */
-            font-weight: 600;
+            height: 100%;
+            z-index: 1; /* Фон */
         }
 
-        /* Пасхальное яйцо */
-        #easter-egg-trigger {
-            cursor: pointer;
-            color: #8bc34a;
-            text-decoration: underline;
-            font-size: 0.9em;
-            text-align: center;
-            display: block;
-            margin-top: 50px;
+        /* Весь контент должен быть поверх 3D-фона */
+        #navbar, .content-section, #contact-footer {
+            position: relative;
+            z-index: 2;
         }
-        #easter-egg-message {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            color: #fdd835;
-            font-size: 1.2em;
-            font-weight: bold;
-            background-color: rgba(255, 215, 0, 0.1);
-            padding: 15px;
-            border-radius: 8px;
+
+        /* Кастомный курсор */
+        .cursor-outline, .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            transition: transform 0.1s ease-out;
+        }
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #8BC34A; /* nexor-green */
+            transition: width 0.2s, height 0.2s, transform 0.1s ease-out, opacity 0.2s;
+            opacity: 0.5;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #8BC34A; /* nexor-green */
+        }
+        
+        /* Эффект курсора при наведении */
+        .cursor-hover {
+            width: 50px;
+            height: 50px;
+            opacity: 0.2;
+        }
+
+        /* Навигация */
+        #navbar {
+            transition: background-color 0.4s ease-out;
+        }
+        #navbar.scrolled {
+            background-color: rgba(18, 18, 18, 0.8); /* nexor-bg с прозрачностью */
+            backdrop-filter: blur(10px);
+        }
+        #navbar a:hover {
+            color: #FDD835; /* nexor-gold */
+        }
+        #navbar a {
+            transition: color 0.3s;
+        }
+
+        /* Полноэкранные секции */
+        .content-section {
+            min-height: 100vh;
+            padding: 8rem 1rem; /* 8rem сверху/снизу, 1rem по бокам */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #1E1E1E; /* Разделитель */
+        }
+
+        /* Секция Hero */
+        #hero {
+            height: 100vh;
+            min-height: 100vh;
+            padding: 0 1rem;
+        }
+
+        /* Карточки */
+        .info-card {
+            background-color: #1E1E1E; /* nexor-card */
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Стили для скроллбара в проектах */
+        .project-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .project-list::-webkit-scrollbar-track {
+            background: #1E1E1E; /* nexor-card */
+            border-radius: 10px;
+        }
+        .project-list::-webkit-scrollbar-thumb {
+            background: #8BC34A; /* nexor-green */
+            border-radius: 10px;
+        }
+        .project-list::-webkit-scrollbar-thumb:hover {
+            background: #a3e062;
+        }
+
+        /* Анимация появления при скролле (Scroll-Trigger) */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.8s ease-out, transform 0.7s ease-out;
+            will-change: opacity, transform;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <section class="section" id="personal-info">
-      <section class="section" id="personal-info">
-      <h1 id="site-title">Ренард Мирсиев</h1>
-      <p>Возраст: 15 лет (3.09.2010)</p>
-      <p>Город: Шымкент, Казахстан</p>
-        </section>
 
-        <section class="section" id="about">
-            <h2>Обо мне</h2>
-            <p>Я - молодой и амбициозный студент, увлеченный миром информационных технологий. Активно осваиваю основы фронтенд-разработки и готов к постоянному обучению новым навыкам и технологиям. Моя цель - создавать функциональные, красивые и удобные веб-приложения, которые принесут пользу людям.</p>
-            <p>Помимо учебы, я активно участвую в общественной жизни: являюсь членом школьного парламента, где развиваю лидерские качества и навыки командной работы.</p>
-        </section>
+<body class="bg-nexor-bg text-nexor-text font-inter">
 
-        <section class="section" id="education">
-            <h2>Образование</h2>
-            <p><strong>Онлайн-школа "Морисон"</strong> - "Фронтенд-разработка" (в процессе обучения)</p>
-            <p>Здесь я углубляюсь в HTML, CSS и JavaScript, осваиваю адаптивную верстку и принципы создания интерактивных пользовательских интерфейсов.</p>
-            <p>Также продолжаю обучение на платформе Qalan.kz для углубления знаний по математике.</p>
-        </section>
+    <!-- 3D Фон -->
+    <canvas id="hero-canvas"></canvas>
 
-    <section class="section" id="skills">
-      <h2>Навыки</h2>
-      <ul class="skills-list">
-        <li>HTML5</li>
-        <li>CSS</li>
-        <li>JavaScript (основы)</li>
-        <li>Git/GitHub</li>
-        <li>Адаптивная и кроссбраузерная верстка</li>
-        <li>Лидерство</li>
-        <li>Командная работа</li>
-        <li>Управление временем</li>
-        <li>Эффективные коммуникации</li>
-      </ul>
+    <!-- Кастомный курсор -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Фиксированная навигация -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 p-6">
+        <div class="container mx-auto flex justify-between items-center max-w-7xl">
+            <a href="#hero" class="text-2xl font-bold text-nexor-green">Nexor</a>
+            <div class="hidden md:flex space-x-8 text-nexor-white">
+                <a href="#about">Обо мне</a>
+                <a href="#education-skills">Навыки</a>
+                <a href="#projects">Проекты</a>
+                <a href="#personality">Личность</a>
+                <a href="#contact">Контакты</a>
+            </div>
+            <!-- Мобильное меню (можно добавить позже) -->
+        </div>
+    </nav>
+
+    <!-- 1. Главный экран (Hero) -->
+    <section id="hero" class="content-section">
+        <div class="text-center">
+            <h1 class="text-6xl md:text-8xl font-bold text-nexor-white mb-4">
+                Ренард Мирсиев
+            </h1>
+            <h2 class="text-3xl md:text-5xl font-light text-nexor-green mb-6">
+                Фронтенд-разработчик
+            </h2>
+            <p class="text-xl md:text-2xl text-nexor-text font-light">
+              <span class="font-semibold text-nexor-gold">Nexor</span>
+            </p>
+        </div>
+        <!-- Подсказка "Scroll Down" -->
+        <div class="absolute bottom-10 z-10 text-nexor-text font-light text-sm animate-bounce">
+            <span class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                Scroll to discover
+            </span>
+        </div>
     </section>
 
-    <section class="section" id="projects">
-      <h2>Проекты</h2>
-      <div class="skills-list">
-        <a href="https://github.com/Renard-admin" target="_blank"><li>GitHub</li></a>
-        <a href="https://renard-admin.github.io/ycbbBV/" target="_blank"><li>YCBB</li></a>
-        <a href="https://renard-admin.github.io/tatarhandw/" target="_blank"><li>handw</li></a>
-        <a href="https://renard-admin.github.io/smartar/" target="_blank"><li>smartar</li></a>
-      </div>
+    <!-- 2. Обо мне (About) -->
+    <section id="about" class="content-section">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center max-w-7xl">
+            <!-- Описание -->
+            <div class="scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-nexor-white">Привет!</h2>
+                <p class="text-xl text-nexor-text leading-relaxed">
+                    Я — молодой и амбициозный студент, увлечённый миром IT и осваивающий фронтенд-разработку.
+                </p>
+                <p class="text-xl text-nexor-text leading-relaxed mt-4">
+                    Моя цель — создавать функциональные, красивые и удобные веб-приложения, которые решают реальные задачи.
+                </p>
+                <p class="text-xl text-nexor-text leading-relaxed mt-4">
+                    Активное участие в школьном парламенте помогает мне развивать <span class="text-nexor-green">лидерские качества</span> и навыки командной работы, которые я считаю не менее важными, чем технические знания.
+                </p>
+            </div>
+            <!-- Личная информация -->
+            <div class="info-card scroll-reveal">
+                <h3 class="text-3xl font-bold text-nexor-white mb-6">Личная информация</h3>
+                <ul class="space-y-3 text-lg text-nexor-text">
+                    <li class="flex justify-between"><strong>Имя:</strong> <span>Ренард Мирсиев</span></li>
+                    <li class="flex justify-between"><strong>Возраст:</strong> <span>15 лет (03.09.2010)</span></li>
+                    <li class="flex justify-between"><strong>Город:</strong> <span>Шымкент, Казахстан</span></li>
+                    <li class="flex justify-between"><strong>Школа:</strong> <span>Farabi International School</span></li>
+                    <li class="flex justify-between"><strong>Класс:</strong> <span>9 «B»</span></li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-        <section class="section" id="achievements">
-            <h2>Дипломы и Сертификаты</h2>
-            <div class="achievements-grid">
-                <div class="achievement-item">
-                    <h3>Диплом I Орын «Жас Математик - Young Mathematician»</h3>
-                    <p>Победитель олимпиады "Жас Математик - Young Mathematician", занявший первое место.</p>
-                    <p>Дата: 22.04.2025</p>
-                    <img src="Скан_20250526 (3).png" alt="Диплом Young Mathematician">
+    <!-- 3. Образование и Навыки -->
+    <section id="education-skills" class="content-section">
+        <div class="container mx-auto max-w-7xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Образование и Навыки</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Образование -->
+                <div class="info-card scroll-reveal">
+                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Образование</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xl font-semibold text-nexor-green">Онлайн-школа "Морисон"</h4>
+                            <p class="text-nexor-text">Курс "Фронтенд-разработка" (в процессе)</p>
+                            <p class="mt-1 text-sm text-gray-400">Изучаю: HTML, CSS, JavaScript, адаптивная верстка, создание интерактивных UI.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-nexor-green">Платформа Qalan.kz</h4>
+                            <p class="text-nexor-text">Углубление знаний по математике.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-item">
-                    <h3>Сертификат участника Лидерской конференции-тренинга</h3>
-                    <p>Успешно прошел(а) обучение в рамках Лидерской конференции-тренинга Ассоциации Юных Лидеров Казахстана.</p>
-                    <p>Охваченные темы: Лидерство, навыки принятия решений, командная работа, ситуационное лидерство, методы взаимодействия, эффективные коммуникации, управление временем и планирование.</p>
-                    <p>Дата: 07-11.05.2025</p>
-                    <img src="Скан_20250526 (2).png" alt="Сертификат Лидерской конференции">
-                </div>
-                <div class="achievement-item">
-                    <h3>Сертификат участника Лидерской конференции-тренинга (2-й поток)</h3>
-                    <p>Успешно прошел(а) обучение во втором потоке Лидерской конференции-тренинга Ассоциации Юных Лидеров Казахстана.</p>
-                    <p>Охваченные темы: Лидерство, навыки принятия решений, командная работа, ситуационное лидерство, методы взаимодействия, эффективные коммуникации, управление временем и планирование.</p>
-                    <p>Дата: 26 - 30 октября 2024г.</p>
-                    <img src="Скан_20250526.png" alt="Сертификат Лидерской конференции 2">
+                <!-- Навыки -->
+                <div class="info-card scroll-reveal">
+                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Навыки</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-xl font-semibold text-nexor-green mb-3">Технические</h4>
+                            <ul class="list-disc list-inside space-y-1 text-nexor-text">
+                                <li>HTML5</li>
+                                <li>CSS (Flex, Grid)</li>
+                                <li>JavaScript (Основы)</li>
+                                <li>Git / GitHub</li>
+                                <li>Адаптивная верстка</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-nexor-green mb-3">Soft Skills</h4>
+                            <ul class="list-disc list-inside space-y-1 text-nexor-text">
+                                <li>Лидерство</li>
+                                <li>Командная работа</li>
+                                <li>Управление временем</li>
+                                <li>Коммуникации</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section" id="contact">
-            <h2>Свяжитесь со мной</h2>
-            <div class="contact-info">
-                <p>Email: <a href="mailto:[mirsiyevr@gmail.com]">mirsiyevr@gmail.com</a></p>
-                <p>Телефон: +7 747 555 0270</p>
-                <p>Telegram: <a href="https://t.me/Mirsiyev" target="_blank">@Mirsiyev</a></p>
-                <p>GitHub: <a href="https://github.com/Renard-admin" target="_blank">Renard-admin</a></p>
+    <!-- 4. Проекты -->
+    <section id="projects" class="content-section">
+        <div class="container mx-auto text-center max-w-7xl">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 scroll-reveal text-nexor-white">Мои Проекты</h2>
+            <p class="text-lg max-w-2xl mx-auto mb-10 scroll-reveal text-nexor-text" style="transition-delay: 0.1s;">
+                Здесь собран мой путь в коде. Каждый проект — это шаг в обучении, от простых HTML-страниц до более интерактивных приложений.
+            </p>
+            <!-- Контейнер проектов со скроллом -->
+            <div class="info-card project-list max-h-[60vh] overflow-y-auto text-left scroll-reveal" style="transition-delay: 0.2s;">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Список проектов -->
+                    <a href="https://renard-admin.github.io/StreakCoach/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">StreakCoach</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/try/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">try</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/torzhan/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">torzhan</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/gun/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">gun</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/selana-farab/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">selana-farab</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/farab-angl/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">farab-angl</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/Aqua-Cortex/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">Aqua-Cortex</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/interstellar/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">interstellar</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/ShieldWind/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">ShieldWind</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/parlament/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">parlament</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/art-farab/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">art-farab</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/Farab/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">Farab</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/Try2/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">Try2</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/formul/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">formul</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/Farabi/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">Farabi</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/resume/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">resume</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/habits/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">habits</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/sprinttrack/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">sprinttrack</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/App/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">App</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/knopka/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">knopka</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/natcard/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">natcard</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/Mentaltest/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">Mentaltest</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/ycbb/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">ycbb</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/ycbbBV/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">ycbbBV</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/calculator/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">calculator</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/tatarhandw/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">tatarhandw</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/coin-flip/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">coin-flip</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/handq/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">handq</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/smartar/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">smartar</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/smart/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">smart</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/handg0.1/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">handg0.1</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/handg/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">handg</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/camera/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">camera</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/handm/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">handm</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/handd/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">handd</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/mando/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">mando</h4>
+                    </a>
+                    <a href="https://renard-admin.github.io/time/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
+                        <h4 class="font-semibold text-nexor-green">time</h4>
+                    </a>
+                </div>
             </div>
-        </section>
-        
-        <p id="easter-egg-trigger">✨ Кликни здесь, чтобы увидеть секрет ✨</p>
-        <p id="easter-egg-message">У меня нет секретов я открыт миру</p>
+        </div>
+    </section>
 
-    </div>
+    <!-- 5. Достижения и Анализ Личности -->
+    <section id="personality" class="content-section">
+        <div class="container mx-auto max-w-7xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Достижения и Анализ Личности</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Достижения -->
+                <div class="info-card scroll-reveal">
+                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Достижения</h3>
+                    <ul class="list-disc list-inside space-y-4 text-lg text-nexor-text">
+                        <li>Диплом I Орын «Жас Математик — Young Mathematician» (22.04.2025)</li>
+                        <li>Сертификат участника Лидерской конференции-тренинга (07–11.05.2025)</li>
+                        <li>Сертификат участника Лидерской конференции-тренинга (2-й поток, 26–30.10.2024)</li>
+                    </ul>
+                </div>
+                
+                <!-- Анализ Личности -->
+                <div class="info-card scroll-reveal" style="transition-delay: 0.1s;">
+                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Анализ Личности</h3>
+                    <div class="space-y-4">
+                        <div class="bg-nexor-bg p-4 rounded-lg">
+                            <h4 class="text-xl font-bold text-nexor-gold">ENTJ-A «Командир»</h4>
+                            <p class="text-sm text-nexor-text">Экстраверт (63%), Интуитивный (61%), Логичный (53%), Организованный (68%)</p>
+                            <p class="mt-2 text-sm text-gray-400"><strong>Рекомендации:</strong> Full-stack, Тимлид, IT-право, кибер-юрист.</p>
+                        </div>
+                        <div class="bg-nexor-bg p-4 rounded-lg">
+                            <h4 class="text-xl font-bold text-nexor-gold">DISC: Синий (17.76%)</h4>
+                            <p class="text-sm text-nexor-text">Преобладающий цвет. (Зеленый: 15, Красный: 12, Желтый: 9)</p>
+                            <p class="mt-2 text-sm text-gray-400"><strong>Сильные стороны:</strong> Решение проблем, точность, анализ, внимание к деталям.</p>
+                        </div>
+                        <div class="bg-nexor-bg p-4 rounded-lg">
+                            <h4 class="text-xl font-bold text-nexor-gold">Канал восприятия: Аудиал (73.35%)</h4>
+                            <p class="text-sm text-nexor-text">Основной канал. (Визуал: 65%, Кинестетик: 61.67%)</p>
+                            <p class="mt-2 text-sm text-gray-400"><strong>Особенности:</strong> Логическое мышление, хорошо воспринимает устную информацию, любит обсуждения.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- 6. Контакты (Footer) -->
+    <footer id="contact" class="content-section py-20" style="min-height: auto;">
+        <div class="container mx-auto text-center max-w-7xl">
+            <h2 class="text-4xl md:text-5xl font-bold mb-10 scroll-reveal text-nexor-white">Свяжитесь со мной</h2>
+            <p class="text-xl text-nexor-text mb-10 max-w-lg mx-auto scroll-reveal">
+                Я всегда открыт для новых проектов, сотрудничества или просто интересного общения.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 text-lg mb-10 scroll-reveal">
+                <a href="mailto:mirsiyevr@gmail.com" class="text-nexor-gold hover:text-nexor-green transition-colors">mirsiyevr@gmail.com</a>
+                <span class="hidden md:block text-nexor-text">|</span>
+                <a href="tel:+77475550270" class="text-nexor-gold hover:text-nexor-green transition-colors">+7 747 555 0270</a>
+            </div>
+            <div class="flex justify-center space-x-10 text-5xl text-nexor-text scroll-reveal">
+                <a href="https://t.me/Mirsiyev" target="_blank" class="hover:text-nexor-green transition-transform hover:scale-110">
+                    <ion-icon name="paper-plane-outline"></ion-icon>
+                </a>
+                <a href="https://github.com/Renard-admin" target="_blank" class="hover:text-nexor-green transition-transform hover:scale-110">
+                    <ion-icon name="logo-github"></ion-icon>
+                </a>
+            </div>
+            <p class="mt-16 text-sm text-gray-500 scroll-reveal">
+                &copy;"Nexor" Ренард Мирсиев.
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- JavaScript (Интерактивность) -->
     <script>
-        // Smooth scroll and fade-in animation
-        const sections = document.querySelectorAll('.section');
+        document.addEventListener('DOMContentLoaded', () => {
 
-        function checkVisibility() {
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                if (sectionTop < windowHeight * 0.85) { // Появляется раньше
-                    section.classList.add('visible');
+            // ----- 1. Логика кастомного курсора -----
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            let mouseX = 0, mouseY = 0;
+            let dotX = 0, dotY = 0;
+            let outlineX = 0, outlineY = 0;
+            const dotEasing = 0.4;      // Точка (быстрая) - БЫЛО 0.3
+            const outlineEasing = 0.15; // Обводка (плавная) - БЫЛО 0.05
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                // Плавное движение для точки
+                dotX += (mouseX - dotX) * dotEasing;
+                dotY += (mouseY - dotY) * dotEasing;
+                
+                // Плавное движение для обводки
+                outlineX += (mouseX - outlineX) * outlineEasing;
+                outlineY += (mouseY - outlineY) * outlineEasing;
+
+                cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+                cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+
+                requestAnimationFrame(animateCursor);
+            }
+            requestAnimationFrame(animateCursor);
+
+            // Эффекты наведения на ссылки
+            document.querySelectorAll('a, button, [target="_blank"]').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorOutline.classList.add('cursor-hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorOutline.classList.remove('cursor-hover');
+                });
+            });
+
+
+            // ----- 2. Логика "затемнения" навигации при скролле -----
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
             });
-        }
 
-        window.addEventListener('scroll', checkVisibility);
-        checkVisibility(); // Проверяем видимость при загрузке страницы
 
-        // Easter egg functionality
-        const easterEggTrigger = document.getElementById('easter-egg-trigger');
-        const easterEggMessage = document.getElementById('easter-egg-message');
+            // ----- 3. Логика 3D-фона (Three.js) -----
+            let scene, camera, renderer, particles;
+            let mouseNormX = 0, mouseNormY = 0; // Нормализованная позиция мыши (-1 to 1)
+            const canvas = document.getElementById('hero-canvas');
+            
+            // ИЗМЕНЕНО: Вектор мыши в 3D
+            const mouse3D = new THREE.Vector3(); 
+            // ИЗМЕНЕНО: Временный вектор для расчетов
+            const tempParticlePos = new THREE.Vector3();
 
-        easterEggTrigger.addEventListener('click', () => {
-            if (easterEggMessage.style.display === 'none' || easterEggMessage.style.display === '') {
-                easterEggMessage.style.display = 'block';
-            } else {
-                easterEggMessage.style.display = 'none';
+            function initThreeJS() {
+                scene = new THREE.Scene();
+
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 100;
+
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                // Геометрия частиц
+                const particleCount = 7000;
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
+                
+                // ИЗМЕНЕНО: Сохраняем оригинальные позиции
+                const originalPositions = new Float32Array(particleCount * 3);
+
+                for (let i = 0; i < particleCount * 3; i++) {
+                    // Распределяем в кубе
+                    const val = (Math.random() - 0.5) * 200;
+                    positions[i] = val;
+                    originalPositions[i] = val;
+                }
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                // ИЗМЕНЕНО: Добавляем атрибут с оригинальными позициями
+                geometry.setAttribute('originalPosition', new THREE.BufferAttribute(originalPositions, 3));
+
+
+                // Материал частиц
+                const material = new THREE.PointsMaterial({
+                    color: 0x8BC34A, // nexor-green
+                    size: 0.15,
+                    transparent: true,
+                    opacity: 0.6,
+                    blending: THREE.AdditiveBlending
+                });
+
+                particles = new THREE.Points(geometry, material);
+                scene.add(particles);
+
+                // Слушатели
+                document.addEventListener('mousemove', onDocumentMouseMove, false);
+                window.addEventListener('resize', onWindowResize, false);
             }
+
+            function onDocumentMouseMove(event) {
+                // Нормализуем позицию мыши (-1 to 1)
+                mouseNormX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseNormY = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                // ИЗМЕНЕНО: Обновляем 3D-вектор мыши
+                // (масштабируем до размера сцены, -100 до 100)
+                mouse3D.set(mouseNormX * 100, mouseNormY * 100, 0);
+            }
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            // Анимационный цикл
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // ИЗМЕНЕНО: Логика физики частиц (магнит/отталкивание)
+                
+                const attributes = particles.geometry.attributes;
+                const positionAttr = attributes.position;
+                const originalPositionAttr = attributes.originalPosition;
+                const particleCount = positionAttr.count;
+
+                const repelRadius = 30; // Дистанция, на которой мышь влияет
+                const maxRepelStrength = 5.0; // Сила отталкивания
+                const springStiffness = 0.05; // Сила "пружины" (возврата)
+
+                for (let i = 0; i < particleCount; i++) {
+                    const currentX = positionAttr.getX(i);
+                    const currentY = positionAttr.getY(i);
+                    const currentZ = positionAttr.getZ(i);
+
+                    tempParticlePos.set(currentX, currentY, currentZ);
+
+                    const originalX = originalPositionAttr.getX(i);
+                    const originalY = originalPositionAttr.getY(i);
+                    const originalZ = originalPositionAttr.getZ(i);
+
+                    // 1. Рассчитываем силу "пружины" (возврат к оригиналу)
+                    // (target - current) * stiffness
+                    const springDX = (originalX - currentX) * springStiffness;
+                    const springDY = (originalY - currentY) * springStiffness;
+                    const springDZ = (originalZ - currentZ) * springStiffness;
+
+                    // 2. Рассчитываем силу отталкивания от мыши
+                    let repelDX = 0, repelDY = 0;
+                    const dist = tempParticlePos.distanceTo(mouse3D);
+
+                    if (dist < repelRadius) {
+                        // Сила = 1 на 0 дист, 0 на макс дист
+                        const repelForce = 1.0 - (dist / repelRadius); 
+                        
+                        // Вектор направления (от мыши к частице)
+                        const directionX = currentX - mouse3D.x;
+                        const directionY = currentY - mouse3D.y;
+                        
+                        // Нормализация (быстрая)
+                        const directionNorm = 1.0 / (Math.sqrt(directionX * directionX + directionY * directionY) + 0.0001);
+
+                        // Применяем силу к вектору
+                        repelDX = directionX * directionNorm * repelForce * maxRepelStrength;
+                        repelDY = directionY * directionNorm * repelForce * maxRepelStrength;
+                    }
+
+                    // 3. Применяем обе силы к позиции
+                    positionAttr.setX(i, currentX + springDX + repelDX);
+                    positionAttr.setY(i, currentY + springDY + repelDY);
+                    positionAttr.setZ(i, currentZ + springDZ); // Z не отталкивается
+                }
+
+                // Говорим Three.js, что позиции изменились
+                positionAttr.needsUpdate = true;
+                
+                // "Живая" анимация - легкое вращение (оставляем)
+                particles.rotation.z += 0.0003;
+
+                // Реакция на скролл (двигаем камеру) (оставляем)
+                camera.position.y = -window.scrollY * 0.03;
+
+                renderer.render(scene, camera);
+            }
+
+            initThreeJS();
+            animate();
+
+
+            // ----- 4. Логика анимации при прокрутке (IntersectionObserver) -----
+            const animatedElements = document.querySelectorAll('.scroll-reveal');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Срабатывать, когда 10% элемента видно
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
         });
     </script>
+
 </body>
 </html>
