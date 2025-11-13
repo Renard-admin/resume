@@ -47,7 +47,7 @@
             font-family: 'inter', sans-serif;
             background-color: #121212;
             color: #CCCCCC;
-            /* Убираем стандартный курсор */
+            /* Убираем стандартный курсор по умолчанию для десктопа */
             cursor: none;
             overflow-x: hidden; /* Запрет горизонтального скролла */
         }
@@ -99,6 +99,16 @@
             opacity: 0.2;
         }
 
+        /* ИЗМЕНЕНИЕ: Скрытие кастомного курсора и возврат стандартного на тач-устройствах */
+        @media (pointer: coarse) {
+            body {
+                cursor: auto; /* Возвращаем стандартный курсор */
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important; /* Прячем кастомный курсор */
+            }
+        }
+
         /* Навигация */
         #navbar {
             transition: background-color 0.4s ease-out;
@@ -117,12 +127,32 @@
         /* Полноэкранные секции */
         .content-section {
             min-height: 100vh;
-            padding: 8rem 1rem; /* 8rem сверху/снизу, 1rem по бокам */
+            /* ИЗМЕНЕНИЕ: Адаптивные отступы */
+            padding: 8rem 1rem; /* 8rem сверху/снизу */
             display: flex;
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid #1E1E1E; /* Разделитель */
         }
+        
+        /* ИЗМЕНЕНИЕ: Адаптивные отступы для контейнера */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
 
         /* Секция Hero */
         #hero {
@@ -135,8 +165,14 @@
         .info-card {
             background-color: #1E1E1E; /* nexor-card */
             border-radius: 12px;
-            padding: 2rem;
+            /* ИЗМЕНЕНИЕ: Адаптивные отступы */
+            padding: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        @media (min-width: 768px) {
+            .info-card {
+                padding: 2rem;
+            }
         }
         
         /* Стили для скроллбара в проектах */
@@ -174,14 +210,16 @@
     <!-- 3D Фон -->
     <canvas id="hero-canvas"></canvas>
 
-    <!-- Кастомный курсор -->
+    <!-- Кастомный курсор (будет скрыт CSS на тач-устройствах) -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
     <!-- Фиксированная навигация -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 p-6">
-        <div class="container mx-auto flex justify-between items-center max-w-7xl">
-            <a href="#hero" class="text-2xl font-bold text-nexor-green">Nexor</a>
+        <div class="container mx-auto flex justify-between items-center max-w-7xl px-4 sm:px-6 lg:px-8">
+            <a href="#hero" class="text-2xl font-bold text-nexor-green z-50">Nexor</a>
+            
+            <!-- Десктопное меню -->
             <div class="hidden md:flex space-x-8 text-nexor-white">
                 <a href="#about">Обо мне</a>
                 <a href="#education-skills">Навыки</a>
@@ -189,22 +227,40 @@
                 <a href="#personality">Личность</a>
                 <a href="#contact">Контакты</a>
             </div>
-            <!-- Мобильное меню (можно добавить позже) -->
+            
+            <!-- НОВОЕ: Мобильная "бургер" кнопка -->
+            <button id="menu-btn" class="md:hidden text-nexor-white text-3xl z-50">
+                <ion-icon name="menu-outline"></ion-icon>
+            </button>
         </div>
     </nav>
+
+    <!-- НОВОЕ: Мобильное меню (оверлей) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-nexor-bg z-40 flex flex-col items-center justify-center space-y-8 text-3xl">
+        <a href="#about" class="mobile-link text-nexor-white">Обо мне</a>
+        <a href="#education-skills" class="mobile-link text-nexor-white">Навыки</a>
+        <a href="#projects" class="mobile-link text-nexor-white">Проекты</a>
+        <a href="#personality" class="mobile-link text-nexor-white">Личность</a>
+        <a href="#contact" class="mobile-link text-nexor-white">Контакты</a>
+    </div>
 
     <!-- 1. Главный экран (Hero) -->
     <section id="hero" class="content-section">
         <div class="text-center">
-            <h1 class="text-6xl md:text-8xl font-bold text-nexor-white mb-4">
+            <!-- ИЗМЕНЕНИЕ: Адаптивная типографика -->
+            <h1 class="text-5xl sm:text-6xl md:text-8xl font-bold text-nexor-white mb-4">
                 Ренард Мирсиев
             </h1>
-            <h2 class="text-3xl md:text-5xl font-light text-nexor-green mb-6">
+            <h2 class="text-2xl sm:text-3xl md:text-5xl font-light text-nexor-green mb-6">
                 Фронтенд-разработчик
             </h2>
-            <p class="text-xl md:text-2xl text-nexor-text font-light">
-              <span class="font-semibold text-nexor-gold">Nexor</span>
+            <p class="text-lg sm:text-xl md:text-2xl text-nexor-text font-light"><span class="font-semibold text-nexor-gold">Nexor</span>
             </p>
+
+            <!-- НОВОЕ: Кнопка для запроса гироскопа на iOS -->
+            <button id="enable-motion-btn" style="display: none;" class="mt-8 bg-nexor-green text-nexor-bg font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-nexor-gold transition-colors z-10 relative">
+                Включить 3D-движение
+            </button>
         </div>
         <!-- Подсказка "Scroll Down" -->
         <div class="absolute bottom-10 z-10 text-nexor-text font-light text-sm animate-bounce">
@@ -219,29 +275,30 @@
 
     <!-- 2. Обо мне (About) -->
     <section id="about" class="content-section">
-        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center max-w-7xl">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center max-w-7xl px-4 sm:px-6 lg:px-8">
             <!-- Описание -->
             <div class="scroll-reveal">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-nexor-white">Привет!</h2>
-                <p class="text-xl text-nexor-text leading-relaxed">
+                <!-- ИЗМЕНЕНИЕ: Адаптивная типографика -->
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-nexor-white">Привет!</h2>
+                <p class="text-lg sm:text-xl text-nexor-text leading-relaxed">
                     Я — молодой и амбициозный студент, увлечённый миром IT и осваивающий фронтенд-разработку.
                 </p>
-                <p class="text-xl text-nexor-text leading-relaxed mt-4">
+                <p class="text-lg sm:text-xl text-nexor-text leading-relaxed mt-4">
                     Моя цель — создавать функциональные, красивые и удобные веб-приложения, которые решают реальные задачи.
                 </p>
-                <p class="text-xl text-nexor-text leading-relaxed mt-4">
+                <p class="text-lg sm:text-xl text-nexor-text leading-relaxed mt-4">
                     Активное участие в школьном парламенте помогает мне развивать <span class="text-nexor-green">лидерские качества</span> и навыки командной работы, которые я считаю не менее важными, чем технические знания.
                 </p>
             </div>
             <!-- Личная информация -->
             <div class="info-card scroll-reveal">
-                <h3 class="text-3xl font-bold text-nexor-white mb-6">Личная информация</h3>
-                <ul class="space-y-3 text-lg text-nexor-text">
-                    <li class="flex justify-between"><strong>Имя:</strong> <span>Ренард Мирсиев</span></li>
-                    <li class="flex justify-between"><strong>Возраст:</strong> <span>15 лет (03.09.2010)</span></li>
-                    <li class="flex justify-between"><strong>Город:</strong> <span>Шымкент, Казахстан</span></li>
-                    <li class="flex justify-between"><strong>Школа:</strong> <span>Farabi International School</span></li>
-                    <li class="flex justify-between"><strong>Класс:</strong> <span>9 «B»</span></li>
+                <h3 class="text-2xl sm:text-3xl font-bold text-nexor-white mb-6">Личная информация</h3>
+                <ul class="space-y-3 text-md sm:text-lg text-nexor-text">
+                    <li class="flex flex-col sm:flex-row sm:justify-between"><strong>Имя:</strong> <span>Ренард Мирсиев</span></li>
+                    <li class="flex flex-col sm:flex-row sm:justify-between"><strong>Возраст:</strong> <span>15 лет (03.09.2010)</span></li>
+                    <li class="flex flex-col sm:flex-row sm:justify-between"><strong>Город:</strong> <span>Шымкент, Казахстан</span></li>
+                    <li class="flex flex-col sm:flex-row sm:justify-between"><strong>Школа:</strong> <span>Farabi International School</span></li>
+                    <li class="flex flex-col sm:flex-row sm:justify-between"><strong>Класс:</strong> <span>9 «B»</span></li>
                 </ul>
             </div>
         </div>
@@ -249,30 +306,31 @@
 
     <!-- 3. Образование и Навыки -->
     <section id="education-skills" class="content-section">
-        <div class="container mx-auto max-w-7xl">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Образование и Навыки</h2>
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Образование и Навыки</h2>
             <div class="grid md:grid-cols-2 gap-10">
                 <!-- Образование -->
                 <div class="info-card scroll-reveal">
-                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Образование</h3>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-nexor-white mb-6">Образование</h3>
                     <div class="space-y-6">
                         <div>
-                            <h4 class="text-xl font-semibold text-nexor-green">Онлайн-школа "Морисон"</h4>
+                            <h4 class="text-lg sm:text-xl font-semibold text-nexor-green">Онлайн-школа "Морисон"</h4>
                             <p class="text-nexor-text">Курс "Фронтенд-разработка" (в процессе)</p>
                             <p class="mt-1 text-sm text-gray-400">Изучаю: HTML, CSS, JavaScript, адаптивная верстка, создание интерактивных UI.</p>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-nexor-green">Платформа Qalan.kz</h4>
+                            <h4 class="text-lg sm:text-xl font-semibold text-nexor-green">Платформа Qalan.kz</h4>
                             <p class="text-nexor-text">Углубление знаний по математике.</p>
                         </div>
                     </div>
                 </div>
                 <!-- Навыки -->
                 <div class="info-card scroll-reveal">
-                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Навыки</h3>
-                    <div class="grid grid-cols-2 gap-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-nexor-white mb-6">Навыки</h3>
+                    <!-- ИЗМЕНЕНИЕ: Адаптивная сетка -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="text-xl font-semibold text-nexor-green mb-3">Технические</h4>
+                            <h4 class="text-lg sm:text-xl font-semibold text-nexor-green mb-3">Технические</h4>
                             <ul class="list-disc list-inside space-y-1 text-nexor-text">
                                 <li>HTML5</li>
                                 <li>CSS (Flex, Grid)</li>
@@ -282,7 +340,7 @@
                             </ul>
                         </div>
                         <div>
-                            <h4 class="text-xl font-semibold text-nexor-green mb-3">Soft Skills</h4>
+                            <h4 class="text-lg sm:text-xl font-semibold text-nexor-green mb-3">Soft Skills</h4>
                             <ul class="list-disc list-inside space-y-1 text-nexor-text">
                                 <li>Лидерство</li>
                                 <li>Командная работа</li>
@@ -298,15 +356,16 @@
 
     <!-- 4. Проекты -->
     <section id="projects" class="content-section">
-        <div class="container mx-auto text-center max-w-7xl">
-            <h2 class="text-4xl md:text-5xl font-bold mb-12 scroll-reveal text-nexor-white">Мои Проекты</h2>
+        <div class="container mx-auto text-center max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-12 scroll-reveal text-nexor-white">Мои Проекты</h2>
             <p class="text-lg max-w-2xl mx-auto mb-10 scroll-reveal text-nexor-text" style="transition-delay: 0.1s;">
                 Здесь собран мой путь в коде. Каждый проект — это шаг в обучении, от простых HTML-страниц до более интерактивных приложений.
             </p>
             <!-- Контейнер проектов со скроллом -->
             <div class="info-card project-list max-h-[60vh] overflow-y-auto text-left scroll-reveal" style="transition-delay: 0.2s;">
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Список проектов -->
+                <!-- ИЗМЕНЕНИЕ: Адаптивная сетка -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Список проектов (полный) -->
                     <a href="https://renard-admin.github.io/StreakCoach/" target="_blank" class="block p-4 bg-nexor-bg rounded-lg hover:bg-gray-800 transition-colors">
                         <h4 class="font-semibold text-nexor-green">StreakCoach</h4>
                     </a>
@@ -425,12 +484,12 @@
 
     <!-- 5. Достижения и Анализ Личности -->
     <section id="personality" class="content-section">
-        <div class="container mx-auto max-w-7xl">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Достижения и Анализ Личности</h2>
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-16 scroll-reveal text-nexor-white">Достижения и Анализ Личности</h2>
             <div class="grid md:grid-cols-2 gap-10">
                 <!-- Достижения -->
                 <div class="info-card scroll-reveal">
-                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Достижения</h3>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-nexor-white mb-6">Достижения</h3>
                     <ul class="list-disc list-inside space-y-4 text-lg text-nexor-text">
                         <li>Диплом I Орын «Жас Математик — Young Mathematician» (22.04.2025)</li>
                         <li>Сертификат участника Лидерской конференции-тренинга (07–11.05.2025)</li>
@@ -440,20 +499,20 @@
                 
                 <!-- Анализ Личности -->
                 <div class="info-card scroll-reveal" style="transition-delay: 0.1s;">
-                    <h3 class="text-3xl font-bold text-nexor-white mb-6">Анализ Личности</h3>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-nexor-white mb-6">Анализ Личности</h3>
                     <div class="space-y-4">
                         <div class="bg-nexor-bg p-4 rounded-lg">
-                            <h4 class="text-xl font-bold text-nexor-gold">ENTJ-A «Командир»</h4>
+                            <h4 class="text-lg sm:text-xl font-bold text-nexor-gold">ENTJ-A «Командир»</h4>
                             <p class="text-sm text-nexor-text">Экстраверт (63%), Интуитивный (61%), Логичный (53%), Организованный (68%)</p>
                             <p class="mt-2 text-sm text-gray-400"><strong>Рекомендации:</strong> Full-stack, Тимлид, IT-право, кибер-юрист.</p>
                         </div>
                         <div class="bg-nexor-bg p-4 rounded-lg">
-                            <h4 class="text-xl font-bold text-nexor-gold">DISC: Синий (17.76%)</h4>
-                            <p class="text-sm text-nexor-text">Преобладающий цвет. (Зеленый: 15, Красный: 12, Желтый: 9)</p>
+                            <h4 class="text-lg sm:text-xl font-bold text-nexor-gold">DISC: Синий (17.76%)</h4>
+                            <p class="text-sm text-nexor-text">Преобладающий цвет. (Зеленыый: 15, Красный: 12, Желтый: 9)</p>
                             <p class="mt-2 text-sm text-gray-400"><strong>Сильные стороны:</strong> Решение проблем, точность, анализ, внимание к деталям.</p>
                         </div>
                         <div class="bg-nexor-bg p-4 rounded-lg">
-                            <h4 class="text-xl font-bold text-nexor-gold">Канал восприятия: Аудиал (73.35%)</h4>
+                            <h4 class="text-lg sm:text-xl font-bold text-nexor-gold">Канал восприятия: Аудиал (73.35%)</h4>
                             <p class="text-sm text-nexor-text">Основной канал. (Визуал: 65%, Кинестетик: 61.67%)</p>
                             <p class="mt-2 text-sm text-gray-400"><strong>Особенности:</strong> Логическое мышление, хорошо воспринимает устную информацию, любит обсуждения.</p>
                         </div>
@@ -465,9 +524,9 @@
 
     <!-- 6. Контакты (Footer) -->
     <footer id="contact" class="content-section py-20" style="min-height: auto;">
-        <div class="container mx-auto text-center max-w-7xl">
-            <h2 class="text-4xl md:text-5xl font-bold mb-10 scroll-reveal text-nexor-white">Свяжитесь со мной</h2>
-            <p class="text-xl text-nexor-text mb-10 max-w-lg mx-auto scroll-reveal">
+        <div class="container mx-auto text-center max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-10 scroll-reveal text-nexor-white">Свяжитесь со мной</h2>
+            <p class="text-lg sm:text-xl text-nexor-text mb-10 max-w-lg mx-auto scroll-reveal">
                 Я всегда открыт для новых проектов, сотрудничества или просто интересного общения.
             </p>
             <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 text-lg mb-10 scroll-reveal">
@@ -475,7 +534,7 @@
                 <span class="hidden md:block text-nexor-text">|</span>
                 <a href="tel:+77475550270" class="text-nexor-gold hover:text-nexor-green transition-colors">+7 747 555 0270</a>
             </div>
-            <div class="flex justify-center space-x-10 text-5xl text-nexor-text scroll-reveal">
+            <div class="flex justify-center space-x-10 text-4xl sm:text-5xl text-nexor-text scroll-reveal">
                 <a href="https://t.me/Mirsiyev" target="_blank" class="hover:text-nexor-green transition-transform hover:scale-110">
                     <ion-icon name="paper-plane-outline"></ion-icon>
                 </a>
@@ -484,7 +543,7 @@
                 </a>
             </div>
             <p class="mt-16 text-sm text-gray-500 scroll-reveal">
-                &copy;"Nexor" Ренард Мирсиев.
+                &copy; "Nexor" Ренард Мирсиев.
             </p>
         </div>
     </footer>
@@ -494,45 +553,51 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // ----- 1. Логика кастомного курсора -----
+            // ----- 0. Определение устройства -----
+            let isTouchDevice = false;
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                isTouchDevice = true;
+            }
+
+            // ----- 1. Логика кастомного курсора (Только для НЕ тач-устройств) -----
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
-            let mouseX = 0, mouseY = 0;
-            let dotX = 0, dotY = 0;
-            let outlineX = 0, outlineY = 0;
-            const dotEasing = 0.4;      // Точка (быстрая) - БЫЛО 0.3
-            const outlineEasing = 0.15; // Обводка (плавная) - БЫЛО 0.05
+            
+            if (!isTouchDevice) {
+                let mouseX = 0, mouseY = 0;
+                let dotX = 0, dotY = 0;
+                let outlineX = 0, outlineY = 0;
+                const dotEasing = 0.4;
+                const outlineEasing = 0.15;
 
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
 
-            function animateCursor() {
-                // Плавное движение для точки
-                dotX += (mouseX - dotX) * dotEasing;
-                dotY += (mouseY - dotY) * dotEasing;
-                
-                // Плавное движение для обводки
-                outlineX += (mouseX - outlineX) * outlineEasing;
-                outlineY += (mouseY - outlineY) * outlineEasing;
+                function animateCursor() {
+                    dotX += (mouseX - dotX) * dotEasing;
+                    dotY += (mouseY - dotY) * dotEasing;
+                    outlineX += (mouseX - outlineX) * outlineEasing;
+                    outlineY += (mouseY - outlineY) * outlineEasing;
 
-                cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
-                cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+                    cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+                    cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
 
+                    requestAnimationFrame(animateCursor);
+                }
                 requestAnimationFrame(animateCursor);
-            }
-            requestAnimationFrame(animateCursor);
 
-            // Эффекты наведения на ссылки
-            document.querySelectorAll('a, button, [target="_blank"]').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursorOutline.classList.add('cursor-hover');
+                // Эффекты наведения на ссылки
+                document.querySelectorAll('a, button, [target="_blank"]').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorOutline.classList.add('cursor-hover');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorOutline.classList.remove('cursor-hover');
+                    });
                 });
-                el.addEventListener('mouseleave', () => {
-                    cursorOutline.classList.remove('cursor-hover');
-                });
-            });
+            }
 
 
             // ----- 2. Логика "затемнения" навигации при скролле -----
@@ -545,46 +610,56 @@
                 }
             });
 
+            // ----- НОВОЕ: 2.5. Логика Мобильного Меню -----
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = menuBtn.querySelector('ion-icon');
+            const mobileLinks = mobileMenu.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                mobileMenu.classList.toggle('hidden');
+                // Меняем иконку
+                if (mobileMenu.classList.contains('hidden')) {
+                    menuIcon.setAttribute('name', 'menu-outline');
+                } else {
+                    menuIcon.setAttribute('name', 'close-outline');
+                }
+            }
+            
+            menuBtn.addEventListener('click', toggleMenu);
+            // Закрываем меню при клике на ссылку
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
 
             // ----- 3. Логика 3D-фона (Three.js) -----
             let scene, camera, renderer, particles;
-            let mouseNormX = 0, mouseNormY = 0; // Нормализованная позиция мыши (-1 to 1)
+            let mouseNormX = 0, mouseNormY = 0;
             const canvas = document.getElementById('hero-canvas');
-            
-            // ИЗМЕНЕНО: Вектор мыши в 3D
             const mouse3D = new THREE.Vector3(); 
-            // ИЗМЕНЕНО: Временный вектор для расчетов
             const tempParticlePos = new THREE.Vector3();
 
             function initThreeJS() {
                 scene = new THREE.Scene();
-
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 camera.position.z = 100;
-
                 renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
 
-                // Геометрия частиц
                 const particleCount = 7000;
                 const geometry = new THREE.BufferGeometry();
                 const positions = new Float32Array(particleCount * 3);
-                
-                // ИЗМЕНЕНО: Сохраняем оригинальные позиции
                 const originalPositions = new Float32Array(particleCount * 3);
 
                 for (let i = 0; i < particleCount * 3; i++) {
-                    // Распределяем в кубе
                     const val = (Math.random() - 0.5) * 200;
                     positions[i] = val;
                     originalPositions[i] = val;
                 }
                 geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                // ИЗМЕНЕНО: Добавляем атрибут с оригинальными позициями
                 geometry.setAttribute('originalPosition', new THREE.BufferAttribute(originalPositions, 3));
 
-
-                // Материал частиц
                 const material = new THREE.PointsMaterial({
                     color: 0x8BC34A, // nexor-green
                     size: 0.15,
@@ -596,18 +671,28 @@
                 particles = new THREE.Points(geometry, material);
                 scene.add(particles);
 
-                // Слушатели
-                document.addEventListener('mousemove', onDocumentMouseMove, false);
                 window.addEventListener('resize', onWindowResize, false);
             }
 
+            // Обработчик мыши (для десктопа)
             function onDocumentMouseMove(event) {
-                // Нормализуем позицию мыши (-1 to 1)
                 mouseNormX = (event.clientX / window.innerWidth) * 2 - 1;
                 mouseNormY = -(event.clientY / window.innerHeight) * 2 + 1;
+                mouse3D.set(mouseNormX * 100, mouseNormY * 100, 0);
+            }
+
+            // НОВОЕ: Обработчик гироскопа (для тач)
+            function onDeviceOrientation(event) {
+                const gamma = event.gamma; // Left/Right (-90 to 90)
+                const beta = event.beta;   // Front/Back (-180 to 180)
+
+                // Нормализуем значения (подбираем диапазон)
+                // Gamma (-45 to 45) -> -1 to 1
+                mouseNormX = Math.max(-1, Math.min(1, (gamma || 0) / 45));
                 
-                // ИЗМЕНЕНО: Обновляем 3D-вектор мыши
-                // (масштабируем до размера сцены, -100 до 100)
+                // Beta (e.g., 30 to 90, center 60) -> 1 to -1 (инвертируем Y)
+                mouseNormY = Math.max(-1, Math.min(1, ((beta || 60) - 60) / 30)) * -1; 
+
                 mouse3D.set(mouseNormX * 100, mouseNormY * 100, 0);
             }
 
@@ -620,17 +705,15 @@
             // Анимационный цикл
             function animate() {
                 requestAnimationFrame(animate);
-
-                // ИЗМЕНЕНО: Логика физики частиц (магнит/отталкивание)
                 
                 const attributes = particles.geometry.attributes;
                 const positionAttr = attributes.position;
                 const originalPositionAttr = attributes.originalPosition;
                 const particleCount = positionAttr.count;
 
-                const repelRadius = 30; // Дистанция, на которой мышь влияет
-                const maxRepelStrength = 5.0; // Сила отталкивания
-                const springStiffness = 0.05; // Сила "пружины" (возврата)
+                const repelRadius = 30;
+                const maxRepelStrength = 5.0;
+                const springStiffness = 0.05;
 
                 for (let i = 0; i < particleCount; i++) {
                     const currentX = positionAttr.getX(i);
@@ -643,52 +726,73 @@
                     const originalY = originalPositionAttr.getY(i);
                     const originalZ = originalPositionAttr.getZ(i);
 
-                    // 1. Рассчитываем силу "пружины" (возврат к оригиналу)
-                    // (target - current) * stiffness
+                    // 1. Сила "пружины" (возврат к оригиналу)
                     const springDX = (originalX - currentX) * springStiffness;
                     const springDY = (originalY - currentY) * springStiffness;
                     const springDZ = (originalZ - currentZ) * springStiffness;
 
-                    // 2. Рассчитываем силу отталкивания от мыши
+                    // 2. Сила отталкивания (от мыши или гироскопа)
                     let repelDX = 0, repelDY = 0;
                     const dist = tempParticlePos.distanceTo(mouse3D);
 
                     if (dist < repelRadius) {
-                        // Сила = 1 на 0 дист, 0 на макс дист
                         const repelForce = 1.0 - (dist / repelRadius); 
-                        
-                        // Вектор направления (от мыши к частице)
                         const directionX = currentX - mouse3D.x;
                         const directionY = currentY - mouse3D.y;
-                        
-                        // Нормализация (быстрая)
                         const directionNorm = 1.0 / (Math.sqrt(directionX * directionX + directionY * directionY) + 0.0001);
-
-                        // Применяем силу к вектору
                         repelDX = directionX * directionNorm * repelForce * maxRepelStrength;
                         repelDY = directionY * directionNorm * repelForce * maxRepelStrength;
                     }
 
-                    // 3. Применяем обе силы к позиции
+                    // 3. Применяем силы
                     positionAttr.setX(i, currentX + springDX + repelDX);
                     positionAttr.setY(i, currentY + springDY + repelDY);
-                    positionAttr.setZ(i, currentZ + springDZ); // Z не отталкивается
+                    positionAttr.setZ(i, currentZ + springDZ);
                 }
 
-                // Говорим Three.js, что позиции изменились
                 positionAttr.needsUpdate = true;
-                
-                // "Живая" анимация - легкое вращение (оставляем)
                 particles.rotation.z += 0.0003;
-
-                // Реакция на скролл (двигаем камеру) (оставляем)
                 camera.position.y = -window.scrollY * 0.03;
-
                 renderer.render(scene, camera);
             }
 
+            // ----- НОВОЕ: 3.5. Выбор и запуск интерактивности -----
+            function setupInteractions() {
+                if (isTouchDevice) {
+                    // --- Логика для Тач-устройств (Гироскоп) ---
+                    
+                    // Проверяем, нужен ли запрос разрешения (iOS 13+)
+                    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                        const motionButton = document.getElementById('enable-motion-btn');
+                        motionButton.style.display = 'inline-block'; // Показываем кнопку
+                        
+                        motionButton.addEventListener('click', () => {
+                            DeviceOrientationEvent.requestPermission()
+                                .then(response => {
+                                    if (response === 'granted') {
+                                        window.addEventListener('deviceorientation', onDeviceOrientation);
+                                        motionButton.style.display = 'none'; // Прячем кнопку
+                                    } else {
+                                        // Можно добавить сообщение, если отказано
+                                        motionButton.innerText = "Доступ отклонен";
+                                    }
+                                })
+                                .catch(console.error);
+                        });
+                    } else {
+                        // --- Логика для Android (разрешение не нужно) ---
+                        window.addEventListener('deviceorientation', onDeviceOrientation);
+                    }
+                } else {
+                    // --- Логика для Десктопа (Мышь) ---
+                    document.addEventListener('mousemove', onDocumentMouseMove, false);
+                }
+            }
+
+            // Запускаем все
             initThreeJS();
             animate();
+            setupInteractions();
 
 
             // ----- 4. Логика анимации при прокрутке (IntersectionObserver) -----
